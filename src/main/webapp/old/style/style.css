@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+#container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 2rem;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: .5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, .1);
+}
+
+h2 {
+    color: #2c3e50;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+h3 {
+    color: #2c3e50;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.submit-btn {
+    padding: 1rem;
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+}
+
+#results-table {
+    overflow-x: auto;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+    border-collapse: collapse;
+}
+
+#results-table th,
+#results-table td {
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #ecf0f1;
+}
+
+#results-table th {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: white;
+    font-weight: bold;
+}
+
+#results-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+#results-table tr:hover {
+    background-color: #e8f4fc;
+}
+
+#results-table tr.hit {
+    background-color: #d4edda;
+}
+
+#results-table tr.hit:hover {
+    background-color: #c3e6cb;
+}
+
+.miss {
+    color: #e74c3c;
+}
+
+#results-table tr.miss {
+    background-color: #f8d7da;
+}
+
+#results-table tr.miss:hover {
+    background-color: #f1b0b7;
+}
+
+@media (max-width: 700px) {
+    #container {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+}

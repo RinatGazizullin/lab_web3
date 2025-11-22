@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+   <meta charset="UTF-8" />
+   <title>Графический калькулятор</title>
+   <link rel="stylesheet" href="./styles/main.css" />
+   <link rel="stylesheet" href="./styles/style.css" />
+   <link rel="stylesheet" href="./styles/clock.css" />
+</h:head>
+<h:body>
+   <div class="body-content">
+      <div class="grid-container">
+         <div class="container double">
+            <div class="container-content">
+               <div class="header">
+                  <div class="main">
+                     <h1>Графический калькулятор</h1>
+                  </div>
+                  <div class="grid-header">
+                     <div>
+                        <span class="info">Вариант: </span>
+                        <span>3216008</span>
+                     </div>
+                     <div>
+                        <span class="info">ФИО: </span>
+                        <span>Газизуллин Ринат Ришатович</span>
+                     </div>
+                     <div>
+                        <span class="info">Группа: </span>
+                        <span>P3216</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <h:form id="mainForm">
+            <div class="grid-column">
+               <div class="container">
+                  <div class="container-content">
+                     <div class="main">
+                        <h2>Поле ввода</h2>
+                     </div>
+                        <div class="grid-input">
+                           <div>
+                              <h3>Координата X</h3>
+                           </div>
+                           <div>
+                              <h:selectOneMenu class="input-data no-add" id="Xselect" value="#{resultBean.x}" required="true">
+                                 <f:selectItem itemValue="-5" itemLabel = "-5" />
+                                 <f:selectItem itemValue="-4" itemLabel = "-4" />
+                                 <f:selectItem itemValue="-3" itemLabel = "-3" />
+                                 <f:selectItem itemValue="-2" itemLabel = "-2" />
+                                 <f:selectItem itemValue="-1" itemLabel = "-1" />
+                                 <f:selectItem itemValue="0" itemLabel = "0" />
+                                 <f:selectItem itemValue="1" itemLabel = "1" />
+                                 <f:selectItem itemValue="2" itemLabel = "2" />
+                                 <f:selectItem itemValue="3" itemLabel = "3" />
+                              </h:selectOneMenu>
+                           </div>
+                           <div>
+                              <h3>Координата Y</h3>
+                           </div>
+                           <div>
+                              <h:inputText class="input-data" id="Yinput" value="#{resultBean.y}"
+                                           required="true" pt:placeholder="От -5 до 3">
+                                 <f:validator validatorId="floatValidator" />
+                              </h:inputText>
+                           </div>
+                           <div>
+                              <h3>Масштаб R</h3>
+                           </div>
+                           <div>
+                              <h:selectBooleanCheckbox id="r10" value="#{resultBean.r['1.0']}">
+                                 <f:ajax event="change" execute="@this" render="draw calcR" />
+                              </h:selectBooleanCheckbox>
+                              <h:outputLabel for="r10" value="1.0" />
+
+                              <h:selectBooleanCheckbox id="r15" value="#{resultBean.r['1.5']}">
+                                 <f:ajax event="change" execute="@this" render="draw calcR" />
+                              </h:selectBooleanCheckbox>
+                              <h:outputLabel for="r15" value="1.5" />
+
+                              <h:selectBooleanCheckbox id="r20" value="#{resultBean.r['2.0']}">
+                                 <f:ajax event="change" execute="@this" render="draw calcR" />
+                              </h:selectBooleanCheckbox>
+                              <h:outputLabel for="r20" value="2.0" />
+
+                              <h:selectBooleanCheckbox id="r25" value="#{resultBean.r['2.5']}">
+                                 <f:ajax event="change" execute="@this" render="draw calcR" />
+                              </h:selectBooleanCheckbox>
+                              <h:outputLabel for="r25" value="2.5" />
+
+                              <h:selectBooleanCheckbox id="r30" value="#{resultBean.r['3.0']}">
+                                 <f:ajax event="change" execute="@this" render="draw calcR" />
+                              </h:selectBooleanCheckbox>
+                              <h:outputLabel for="r30" value="3.0" />
+                           </div>
+                           <div class="double">
+                              <h:commandButton value="Отправить" styleClass="submit-btn" id="submit">
+                                 <f:ajax listener="#{resultBean.checkPoint}"
+                                         execute="@form"
+                                         render="resultsTable draw" />
+                              </h:commandButton>
+                           </div>
+                        </div>
+                  </div>
+               </div>
+               <div class="container">
+                  <div class="container-content">
+                     <h:commandButton value="Очистить данные" styleClass="submit-btn red" id="clear">
+                        <f:ajax listener="#{resultBean.clear}"
+                                execute="@this"
+                                render="resultsTable draw" />
+                     </h:commandButton>
+                  </div>
+               </div>
+            </div>
+         </h:form>
+         <div class="container">
+            <div class="container-content plot-container">
+               <div class="main">
+                  <h2>График</h2>
+               </div>
+               <canvas id="plot"></canvas>
+            </div>
+         </div>
+         <div class="container double">
+            <div class="container-content">
+               <div class="main">
+                  <h2>Таблица результатов</h2>
+               </div>
+               <h:panelGroup id="resultsTable">
+                  <table class="data">
+                     <thead>
+                     <tr>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Результат</th>
+                        <th>Время запроса</th>
+                        <th>Время работы</th>
+                     </tr>
+                     </thead>
+                     <tbody>
+                     <ui:repeat value="#{resultBean.data}" var="result">
+                        <tr>
+                           <td>
+                              <div class="cell">
+                                 #{result.request.x != null ? result.request.x : '-'}
+                              </div>
+                           </td>
+                           <td>
+                              <div class="cell">
+                                 #{result.request.y != null ? result.request.y : '-'}
+                              </div>
+                           </td>
+                           <td>
+                              <div class="cell">
+                                 #{result.request.r != null ? result.request.r : '-'}
+                              </div>
+                           </td>
+                           <td>
+                              <div class="cell #{result.result == 'HIT' ? 'hit' : result.result == 'MISS' ? 'miss' : 'error'}">
+                                 #{result.message != null ? result.message : 'нет сообщения'}
+                              </div>
+                           </td>
+                           <td>
+                              <div class="cell">
+                                 #{result.timestamp != null ? result.timestamp : 'нет данных'}
+                              </div>
+                           </td>
+                           <td>
+                              <div class="cell">
+                                 #{result.time != null ? result.time : '-'} мкс
+                              </div>
+                           </td>
+                        </tr>
+                     </ui:repeat>
+                     </tbody>
+                  </table>
+               </h:panelGroup>
+            </div>
+         </div>
+
+         <div class="container centered">
+            <div class="container-content">
+               <h:button styleClass="submit-btn" value="Вернуться домой" outcome="go-index"/>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+   <h:form id="customForm" styleClass="hidden">
+      <h:inputHidden id="customX" value="#{resultBean.x}" />
+      <h:inputHidden id="customY" value="#{resultBean.y}" />
+      <h:inputHidden id="customR" value="#{resultBean.selectedRString}" />
+      <h:commandButton value="check" id="custom">
+         <f:ajax listener="#{resultBean.checkPoint}"
+                 execute="@form" />
+      </h:commandButton>
+      <h:commandButton value="check" id="update">
+         <f:ajax execute="@form"
+                 render="resultsTable draw" />
+      </h:commandButton>
+   </h:form>
+
+   <script src="scripts/plot.js"></script>
+   <h:panelGroup id="draw">
+      <script type="text/javascript">
+         drawPoints('#{resultBean.jsonPoints}', #{resultBean.selectedR});
+      </script>
+   </h:panelGroup>
+   <h:panelGroup id="calcR">
+      <h:inputHidden id="RString" value="#{resultBean.selectedRString}" />
+   </h:panelGroup>
+</h:body>
+</html>

@@ -1,0 +1,128 @@
+.input-section, .plot-section, .results-section {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.results-section {
+    position: relative;
+    grid-column: 1 / -1;
+}
+
+.clear-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 0;
+}
+
+.clear-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+}
+
+.clear-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.clear-btn:hover svg {
+    transform: rotate(90deg);
+}
+
+#plot-container, #input-container {
+    padding: .5rem;
+    width: 100%;
+}
+
+#plot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#input-container label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 1rem;
+    min-width: 120px;
+    max-width: 150px;
+    font-weight: bold;
+    text-align: right;
+    vertical-align: middle;
+    color: #34495e;
+}
+
+.input-row {
+    display: flex;
+    align-items: center; /* Выравнивание по вертикали */
+    gap: 10px; /* Отступ между label и input/slider */
+}
+
+.input-label {
+    white-space: nowrap; /* Чтобы текст не переносился */
+    font-weight: 600;
+    color: #34495e;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.input-grid {
+    display: grid;
+    gap: 1rem
+}
+
+#plot-container #plot {
+    border: 2px solid rgb(190, 195, 199);
+    border-radius: 10px;
+    background: white;
+    aspect-ratio: 1;
+    width: 100%;
+}
+
+#plot-container #plot .plot-number {
+    font: 1.2rem Arial bold;
+}
+
+.input-data {
+    color: #2c3e50;
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    font-size: 14px;
+    height: 3rem;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+.no-add {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: white;
+}

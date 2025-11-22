@@ -1,0 +1,19 @@
+#footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    top: 0;
+}
+
+#footer .footer-content-back {
+    background: rgba(255, 255, 255, 0.95);
+    margin: 0 2rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    border-radius: 1rem 1rem;
+}
+
+@media (max-width: 700px) {
+    #footer .footer-content-back {
+        border-radius: 1rem 1rem 0 0;
+    }
+}

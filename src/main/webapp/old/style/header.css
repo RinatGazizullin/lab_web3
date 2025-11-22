@@ -1,0 +1,41 @@
+#main-header {
+    max-width: calc(1200px + 2rem);
+    backdrop-filter: blur(1px);
+    position: sticky;
+    margin: 0 auto;
+    z-index: 1000;
+    top: 0;
+}
+
+#main-header .header-content {
+    background: rgba(255, 255, 255, 0.95);
+    margin: 0 1rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    border-radius: 0 0 1rem 1rem;
+}
+
+#main-header .header-content .student-info {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#main-header .header-content .info-item {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+#main-header .header-content .info-item .label {
+    color: #7f8c8d;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#main-header .header-content .info-item .value {
+    color: #2c3e50;
+    font-size: 1rem;
+    font-family: monospace;
+}

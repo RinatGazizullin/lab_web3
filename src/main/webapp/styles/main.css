@@ -1,0 +1,146 @@
+.plot-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#plot {
+    width: 100%;
+    aspect-ratio: 1;
+    background: white;
+    border-radius: 1rem;
+}
+
+.data {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data thead {
+    background-color: white;
+}
+
+.data thead th {
+    border: none;
+    color: black;
+    background: white;
+    padding: 1rem 1rem;
+}
+
+.data thead tr th:first-child {
+    border-radius: 1rem 0 0 1rem;
+}
+
+.data thead tr th:last-child {
+    border-radius: 0 1rem 1rem 0;
+}
+
+.data tbody td {
+    text-align: left;
+}
+
+.data tbody tr:first-child .cell {
+    margin-top: 8px;
+}
+
+.cell {
+    margin: 4px;
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    background: rgb(81, 81, 81);
+}
+
+.grid-input {
+    gap: 2rem;
+    display: grid;
+    text-align: left;
+    grid-template-columns: 1fr 2fr;
+}
+
+.grid-input div {
+    width: 100%;
+    display: flex;
+    text-align: left;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-input div h3 {
+    white-space: nowrap
+}
+
+.input-data {
+    width: 100%;
+    color: black;
+    height: 3rem;
+    padding: 1rem;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 1rem;
+}
+
+.no-add {
+    appearance: none;
+    background: white;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+label {
+    display: flex;
+    margin: 0 4px;
+    align-items: center;
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    background-color: rgb(81, 81, 81);
+}
+
+label:hover {
+    color: black;
+    background-color: white;
+}
+
+label::before {
+    content: '';
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    background-color: #aaa;
+}
+
+input[type="checkbox"]:checked + label {
+}
+
+input[type="checkbox"]:checked + label::before {
+    background-color: #4A90E2;
+}
+
+.hit {
+    color: lightgreen;
+}
+
+.miss {
+    color: orangered;
+}
+
+.error {
+    color: red;
+}
+
+.hidden {
+    display: none;
+}
+
+.grid-column {
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+}

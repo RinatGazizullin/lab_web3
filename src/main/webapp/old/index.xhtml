@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Лабораторная работа №3</title>
+    <link rel="stylesheet" href="style/footer.css" type="text/css" />
+    <link rel="stylesheet" href="style/header.css" type="text/css" />
+    <link rel="stylesheet" href="style/index.css" type="text/css" />
+    <link rel="stylesheet" href="style/style.css" type="text/css" />
+</head>
+<body>
+<div id="main-header">
+    <div class="header-container">
+        <div class="header-content">
+            <h1>Лабораторная работа по Веб-программированию</h1>
+            <div class="student-info">
+                <div class="info-item">
+                    <span class="label">ФИО:</span>
+                    <span class="value">Газизуллин Ринат Ришатович</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Группа:</span>
+                    <span class="value">P3216</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Вариант:</span>
+                    <span class="value">3216008</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="container">
+    <div class="clock-section">
+        <h1>Текущее время</h1>
+        <div class="clock">
+            <div class="hand hour" id="hour-hand"></div>
+            <div class="hand minute" id="minute-hand"></div>
+            <div class="hand second" id="second-hand"></div>
+            <div class="center-dot"></div>
+        </div>
+        <div id="digital-time" class="digital-time">00:00:00</div>
+    </div>
+
+    <div class="info-section">
+        <div>
+            <h1>Что умеет делать сайт?</h1>
+            <ul>
+                <li>Показывает попадание точки</li>
+                <li>Хранит данные в виде таблицы</li>
+                <li>Отображает точки на графике</li>
+                <li>Показывает точное время</li>
+            </ul>
+        </div>
+        <h:button value="Начать работу" styleClass="mybutton" action="go-main" id="go-main-button" class="submit-btn" />
+    </div>
+</div>
+
+<div id="footer">
+    <div class="footer-content-back">
+        <h3>Спасибо за проверку этой страницы!</h3>
+    </div>
+</div>
+
+<script type="application/ecmascript" src="scripts/script.js"></script>
+</body>
+</html>
