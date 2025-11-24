@@ -72,7 +72,7 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.red {
+.submit-btn.red {
     background-color: #d60000;
 }
 

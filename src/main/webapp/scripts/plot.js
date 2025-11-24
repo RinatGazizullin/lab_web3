@@ -6,10 +6,9 @@ const ctx = canvas.getContext("2d");
 canvas.width = canvas.offsetWidth * 4;
 canvas.height = canvas.offsetHeight * 4;
 
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
-
-const scale = Math.min(canvas.width, canvas.height) / 3;
+let centerX = canvas.width / 2;
+let centerY = canvas.height / 2;
+let scale = Math.min(canvas.width, canvas.height) / 3;
 
 function drawArrow(x1, y1, x2, y2, k1, k2, arrowSize = 60) {
     const angle = Math.atan2(y2 - y1, x2 - x1);
@@ -191,3 +190,7 @@ canvas.addEventListener('click', function(event) {
     document.getElementById("customForm:customR").value = oldR;
     document.getElementById('customForm:update').click();
 });
+
+addEventListener("resize", (event) => {
+    location.reload();
+})

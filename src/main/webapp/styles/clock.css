@@ -1,29 +1,42 @@
 .grid-clock {
-    gap: 5rem;
+    gap: 7rem;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.time {
+    position: relative;
 }
 
 .clock {
+    width: 100%;
     aspect-ratio: 1;
-    border-radius: 50%;
-    position: relative;
-    background-color: #fff;
+    border-radius: 100%;
+}
+
+.time-grid {
+    width: 100%;
+    display: grid;
+    grid-template-areas: "overlay";
+}
+
+.time, .clock {
+    grid-area: overlay;
 }
 
 .clock-label {
-    top: 10%;
     left: 0;
+    top: 15%;
     width: 100%;
-    color: #000;
-    font-size: 1rem;
+    color: #8f8f8f;
+    font-size: 1.2rem;
     font-weight: bold;
     text-align: center;
     position: absolute;
 }
 
-.hour-hand, .minute-hand, .second-hand {
+.hour, .minute, .second {
     left: 50%;
     bottom: 50%;
     position: absolute;
@@ -32,25 +45,25 @@
     transform: translateX(-50%);
 }
 
-.hour-hand {
-    width: 6px;
-    height: 50px;
+.hour {
+    width: 2%;
+    height: 30%;
     background-color: rgb(51, 51, 51);
 }
 
-.minute-hand {
-    width: 4px;
-    height: 70px;
+.minute {
+    width: 1.5%;
+    height: 35%;
     background-color: rgb(85, 85, 85);
 }
 
-.second-hand {
-    width: 2px;
-    height: 80px;
+.second {
+    width: .7%;
+    height: 40%;
     background-color: red;
 }
 
-.center-dot {
+.center {
     top: 50%;
     left: 50%;
     width: 10px;
