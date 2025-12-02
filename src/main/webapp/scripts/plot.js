@@ -1,7 +1,7 @@
 "use strict";
 
-const canvas = document.getElementById("plot");
-const ctx = canvas.getContext("2d");
+let canvas = document.getElementById("plot");
+let ctx = canvas.getContext("2d");
 
 canvas.width = canvas.offsetWidth * 4;
 canvas.height = canvas.offsetHeight * 4;
@@ -9,6 +9,17 @@ canvas.height = canvas.offsetHeight * 4;
 let centerX = canvas.width / 2;
 let centerY = canvas.height / 2;
 let scale = Math.min(canvas.width, canvas.height) / 3;
+
+function reCalc() {
+    canvas.width = canvas.offsetWidth * 4;
+    canvas.height = canvas.offsetHeight * 4;
+
+    centerX = canvas.width / 2;
+    centerY = canvas.height / 2;
+    scale = Math.min(canvas.width, canvas.height) / 3;
+
+    clearPlot();
+}
 
 function drawArrow(x1, y1, x2, y2, k1, k2, arrowSize = 60) {
     const angle = Math.atan2(y2 - y1, x2 - x1);
@@ -144,7 +155,6 @@ function isValid(point) {
 
 /*
 canvas.addEventListener('click', function(event) {
-    console.log(123);
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
@@ -159,13 +169,11 @@ canvas.addEventListener('click', function(event) {
     const graphX = (x - centerX) * r / scale;
     const graphY = (centerY - y) * r / scale;
 
-    console.log("Клик на графике:", graphX, graphY, r, x, y);
-
     document.getElementById('clickX').value = graphX.toFixed(6);
     document.getElementById('clickY').value = graphY.toFixed(6);
 
-    document.getElementById('mainForm:j_idt20').value = graphX.toFixed(6); // Y
-    document.querySelector('#mainForm\\:x').value = graphX.toFixed(6); // X (если это selectOneMenu)
+    document.getElementById('mainForm:j_idt20').value = graphX.toFixed(6);
+    document.querySelector('#mainForm\\:x').value = graphX.toFixed(6);
 
     document.getElementById('mainForm:submitClick').click();
 });
@@ -192,5 +200,5 @@ canvas.addEventListener('click', function(event) {
 });
 
 addEventListener("resize", (event) => {
-    location.reload();
+    reCalc();
 })

@@ -8,7 +8,6 @@ import java.util.Map;
  *
  * @param <T> Тип данных
  *
- *
  * @author rinat
  */
 public interface Builder<T> {

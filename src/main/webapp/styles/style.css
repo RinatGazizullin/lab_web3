@@ -61,7 +61,7 @@ body {
     color: rgb(90, 90, 90);
 }
 
-.submit-btn {
+.error-message, .clear-btn, .submit-btn {
     width: 100%;
     border: none;
     padding: 1rem;
@@ -72,11 +72,15 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.submit-btn.red {
+.clear-btn {
+    background-color: #00a104;
+}
+
+.error-message {
     background-color: #d60000;
 }
 
-.submit-btn:hover {
+.clear-btn:hover, .submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
 }

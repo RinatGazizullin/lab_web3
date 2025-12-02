@@ -13,6 +13,7 @@
    <link rel="stylesheet" href="./styles/clock.css" />
 </h:head>
 <h:body>
+
    <div class="body-content">
       <div class="grid-container">
          <div class="container double">
@@ -38,9 +39,8 @@
                </div>
             </div>
          </div>
-
-         <h:form id="mainForm">
-            <div class="grid-column">
+         <div class="grid-column">
+            <h:form id="mainForm">
                <div class="container">
                   <div class="container-content">
                      <div class="main">
@@ -68,7 +68,8 @@
                            </div>
                            <div>
                               <h:inputText class="input-data" id="Yinput" value="#{resultBean.y}"
-                                           required="true" pt:placeholder="От -5 до 3">
+                                           required="true" pt:placeholder="От -5 до 3"
+                                           converter="inputConverter">
                                  <f:validator validatorId="floatValidator" />
                               </h:inputText>
                            </div>
@@ -108,20 +109,23 @@
                                          render="resultsTable draw" />
                               </h:commandButton>
                            </div>
+                           <div class="error-message hidden double" id="global-error" />
                         </div>
                   </div>
                </div>
+               </h:form>
+               <h:form id="clearForm">
                <div class="container">
                   <div class="container-content">
-                     <h:commandButton value="Очистить данные" styleClass="submit-btn red" id="clear">
+                     <h:commandButton value="Очистить данные" styleClass="clear-btn" id="clear">
                         <f:ajax listener="#{resultBean.clear}"
                                 execute="@this"
                                 render="resultsTable draw" />
                      </h:commandButton>
                   </div>
                </div>
+               </h:form>
             </div>
-         </h:form>
          <div class="container">
             <div class="container-content plot-container">
                <div class="main">
@@ -152,12 +156,12 @@
                         <tr>
                            <td>
                               <div class="cell">
-                                 #{result.request.x != null ? result.request.x : '-'}
+                                 #{result.request.XString != null ? result.request.XString : '-'}
                               </div>
                            </td>
                            <td>
                               <div class="cell">
-                                 #{result.request.y != null ? result.request.y : '-'}
+                                 #{result.request.YString != null ? result.request.YString : '-'}
                               </div>
                            </td>
                            <td>
@@ -196,7 +200,6 @@
       </div>
    </div>
 
-
    <h:form id="customForm" styleClass="hidden">
       <h:inputHidden id="customX" value="#{resultBean.x}" />
       <h:inputHidden id="customY" value="#{resultBean.y}" />
@@ -212,6 +215,7 @@
    </h:form>
 
    <script src="scripts/plot.js"></script>
+   <script src="scripts/error.js"></script>
    <h:panelGroup id="draw">
       <script type="text/javascript">
          drawPoints('#{resultBean.jsonPoints}', #{resultBean.selectedR});

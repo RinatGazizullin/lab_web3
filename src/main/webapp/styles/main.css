@@ -134,10 +134,6 @@ input[type="checkbox"]:checked + label::before {
     color: red;
 }
 
-.hidden {
-    display: none;
-}
-
 .grid-column {
     gap: 1rem;
     display: grid;
@@ -148,4 +144,8 @@ input[type="checkbox"]:checked + label::before {
     gap: 4px;
     display: flex;
     flex-wrap: wrap
+}
+
+.hidden {
+    display: none !important;
 }

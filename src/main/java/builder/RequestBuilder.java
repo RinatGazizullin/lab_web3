@@ -2,7 +2,7 @@ package builder;
 
 import exceptions.DataException;
 import exceptions.ValidatorException;
-import protocol.Request;
+import dto.Request;
 import validator.RequestValidator;
 import validator.Validator;
 import java.math.BigDecimal;

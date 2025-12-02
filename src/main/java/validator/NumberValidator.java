@@ -6,22 +6,28 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.FacesValidator;
 import jakarta.faces.validator.Validator;
 import jakarta.faces.validator.ValidatorException;
-import static validator.RequestValidator.prepareString;
 
 /**
  * JSF-валидатор полей для отправки данных через форму.
  */
 @FacesValidator("floatValidator")
 public class NumberValidator implements Validator<String> {
+    /**
+     * Основной метод для JSF-валидации формы.
+     *
+     * @param context Контект веб-приложения
+     * @param component Конмпонент стрички
+     * @param value Значение копонента
+     * @throws ValidatorException Ошибка валидации
+     */
     @Override
     public void validate(FacesContext context, UIComponent component, String value)
             throws ValidatorException {
         if (value == null || value.trim().isEmpty()) {
             return;
         }
-        final String s = prepareString(value);
         try {
-            double num = Float.parseFloat(s);
+            double num = Float.parseFloat(value);
             if (num < -5 || num > 3) {
                 throw new ValidatorException(new FacesMessage(
                         FacesMessage.SEVERITY_ERROR,

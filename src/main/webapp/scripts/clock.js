@@ -23,11 +23,11 @@ function getTimeForTimezone(timezone) {
 function updateClock(clock, timezone = null, label) {
     const now = timezone ? getTimeForTimezone(timezone) : new Date();
 
-    const hours = now.getHours() % 12;
+    const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    drawClock(clock, hours >= 20 || hours <= 6, hours, minutes, seconds, label);
+    drawClock(clock, hours >= 20 || hours <= 6, hours % 12, minutes, seconds, label);
 }
 
 function updateAllClocks() {
@@ -65,7 +65,6 @@ function drawClock(canvas, isNight, hours, minutes, seconds, label) {
     canvas.height = canvas.offsetHeight * 4;
 
     const backColor = isNight ? "rgb(61, 61, 61)" : "white"; // или rgb(31,31,31)
-
     const hoursMarks = isNight ? "rgb(181, 181, 181)" : "rgb(151, 151, 151)";
     const minMarks = isNight ? "rgb(121, 121, 121)" : "rgb(201, 201, 201)";
 
@@ -119,7 +118,7 @@ function drawClock(canvas, isNight, hours, minutes, seconds, label) {
 
     let secRadians = -(Math.PI * 2 * seconds) / 60;
     let minRadians = -(Math.PI * 2 * minutes) / 60 + secRadians / 60;
-    let hoursRadians = -(Math.PI * 2 * (hours % 12)) / 12 + minRadians / 12;
+    let hoursRadians = -(Math.PI * 2 * (hours)) / 12 + minRadians / 12;
 
     ctx.beginPath();
     ctx.strokeStyle = hand;

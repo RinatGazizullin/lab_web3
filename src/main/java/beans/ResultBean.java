@@ -1,31 +1,18 @@
 package beans;
 
-import builder.Builder;
-import builder.RequestBuilder;
 import com.google.gson.Gson;
-import exceptions.DataException;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
-import protocol.Request;
-import protocol.Result;
-import utils.Checker;
-import utils.SQLString;
-import javax.sql.DataSource;
+import dto.Result;
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.*;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
- * Класс-bean для хранения данных приложения.
+ * Класс-bean для обработки данных приложения.
  *
  * @author rinat
  */
@@ -33,26 +20,17 @@ import java.util.*;
 @Named("resultBean")
 @SessionScoped
 public class ResultBean implements Serializable {
-    private static final Builder<Request> BUILDER = new RequestBuilder();
-    private static final Checker CHECKER = new Checker();
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
-    private static final Gson GSON = new Gson();
+    private transient Gson gson;
+    @Inject
+    private transient DataBaseBean dataBaseBean;
+    @Inject
+    private transient CalculationBean calculationBean;
     @Setter
     private String x;
     @Setter
     private String y;
     @Setter
     private Map<String, Boolean> r;
-    @Resource(lookup = "java:jboss/datasources/PostgreSQLDS")
-    private DataSource dataSource;
-    private final List<Result> data;
-
-    /**
-     * Конструктор.
-     */
-    public ResultBean() {
-        data = new ArrayList<>();
-    }
 
     /**
      * Метод для работы с БД.
@@ -67,46 +45,13 @@ public class ResultBean implements Serializable {
         r.put("2.0", false);
         r.put("2.5", false);
         r.put("3.0", false);
-        if (dataSource == null) {
-            return;
-        }
-        createTableIfNotExists();
-        loadResultsFromDB();
     }
 
-    private void loadResultsFromDB() {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SQLString.READ_INFO.getSql());
-             ResultSet rs = stmt.executeQuery()) {
-
-            List<Result> loadedResults = new ArrayList<>();
-            while (rs.next()) {
-                final Float x = rs.getFloat("x_value");
-                final Float y = rs.getFloat("y_value");
-                final Float r = rs.getFloat("r_value");
-                final Request request = new Request(x, y != null ? BigDecimal.valueOf(y) : null, r);
-
-                String exitCodeName = rs.getString("exit");
-                String message = rs.getString("message");
-                String timestamp = rs.getString("time");
-                long executionTime = rs.getLong("exec");
-
-                final Result result = new Result(request, ExitCode.valueOf(exitCodeName),
-                        message, timestamp, executionTime);
-                loadedResults.add(result);
-            }
-            data.clear();
-            data.addAll(loadedResults);
-        } catch (SQLException ignored) {
+    private Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
         }
-    }
-
-    private void createTableIfNotExists() {
-        try (Connection conn = dataSource.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(SQLString.CREATE_TABLE.getSql());
-        } catch (SQLException ignored) {
-        }
+        return gson;
     }
 
     /**
@@ -125,35 +70,22 @@ public class ResultBean implements Serializable {
      * @return Json-строка
      */
     public String getJsonPoints() {
-        return GSON.toJson(data);
+        return getGson().toJson(dataBaseBean.loadResultsFromDB().getResults());
     }
 
     /**
      * Метод для проверки попадания точки.
      */
     public void checkPoint() {
+        final List<Result> toSave = new ArrayList<>();
         final Map<String, String> map = new HashMap<>();
         map.put("x", x);
         map.put("y", y);
         for (String r : getSelectedR()) {
             map.put("r", r);
-            Result result;
-            final Instant start = Instant.now();
-            try {
-                final Request request = BUILDER.build(map);
-                final boolean isHit = CHECKER.isHit(request);
-                result = new Result(request, isHit ? ExitCode.HIT : ExitCode.MISS,
-                        isHit ? "Попадание" : "Промах",
-                        FORMATTER.format(start.atZone(ZoneId.systemDefault())),
-                        Duration.between(start, Instant.now()).toNanos() / 1000);
-            } catch (DataException e) {
-                result = new Result(Request.EmptyRequest(), ExitCode.ERROR, e.getMessage(),
-                        FORMATTER.format(start.atZone(ZoneId.systemDefault())),
-                        Duration.between(start, Instant.now()).toNanos() / 1000);
-            }
-            data.add(result);
-            saveResultToDB(result);
+            toSave.add(calculationBean.calculatePoint(map));
         }
+        dataBaseBean.save(toSave);
     }
 
     /**
@@ -181,32 +113,15 @@ public class ResultBean implements Serializable {
      * Метод для очистки истории.
      */
     public void clear() {
-        data.clear();
-        clearDB();
+        dataBaseBean.clear();
     }
 
-    private void clearDB() {
-        try (Connection conn = dataSource.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(SQLString.CLEAR.getSql());
-        } catch (SQLException ignored) {
-        }
-    }
-
-    private void saveResultToDB(Result result) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SQLString.ADD_INFO.getSql())) {
-
-            stmt.setFloat(1, result.getRequest().getX());
-            stmt.setFloat(2, result.getRequest().getY().floatValue());
-            stmt.setFloat(3, result.getRequest().getR());
-            stmt.setString(4, result.getResult().name());
-            stmt.setString(5, result.getMessage());
-            stmt.setString(6, result.getTimestamp());
-            stmt.setLong(7, result.getTime());
-
-            stmt.executeUpdate();
-        } catch (SQLException ignored) {
-        }
+    /**
+     * Геттер для данных с БД.
+     *
+     * @return Данные с БД
+     */
+    public List<Result> getData() {
+        return dataBaseBean.loadResultsFromDB().getResults();
     }
 }

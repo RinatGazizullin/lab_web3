@@ -17,7 +17,7 @@ public enum SQLString {
                 r_value DOUBLE PRECISION NOT NULL,
                 exit VARCHAR(10) NOT NULL,
                 message TEXT NOT NULL,
-                time VARCHAR(50) NOT NULL, -- или TIMESTAMP, если вы храните как TIMESTAMP
+                time VARCHAR(50) NOT NULL,
                 exec BIGINT NOT NULL
             );
             """),
